@@ -4,9 +4,13 @@ import './video.css'
 class Video extends Component {
     render() {
         return (
-            <video controls>
-                <source src="assets/simpsons.mp4" type="video/mp4"></source>
-            </video>
+            <div className = 'video-wrapper'>
+                <video controls>
+                    <source src="assets/simpsons.mp4" type="video/mp4"></source>
+                </video>
+                <div className="captions-container">
+                </div>
+            </div>
         )
     }
 }

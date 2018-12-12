@@ -1,3 +1,4 @@
+// captions created using AWS transcribe. Could I incorporate natively?
 const data = require('../../public/assets/aws-captions.json').results
 const words = data.transcripts[0].transcript.split(' ')
 const segments = data.speaker_labels.segments
@@ -14,19 +15,22 @@ for (let i = 0; i < segments.length; i++) {
 }
 
 const speed = (i) =>{
-    let startTime = scriptMetaData[i].start_time
-    let endTime = scriptMetaData[i].end_time
-    let nextSpeakerStartTime = scriptMetaData[i++].start_time
+    let convertToMs = 1000
+    let startTime = (scriptMetaData[i].start_time) * convertToMs
+    let endTime = (scriptMetaData[i].end_time) * convertToMs
+    let nextSpeakerStartTime = (scriptMetaData[(i + 1)].start_time) * convertToMs
     
+    // timing for speech function pause and speak
     if (endTime < nextSpeakerStartTime) { 
-        pause = Math.floor((nextSpeakerStartTime - endTime) *1000)
+        let time = nextSpeakerStartTime - endTime
         return new Promise((resolve) => {
-            setTimeout(resolve, pause)
+            console.log('pauseTime', time)
+            setTimeout(resolve, time)
         })
     } else {
-        speak = Math.floor((endTime - startTime) * 1000)
+        time = endTime - startTime
         return new Promise((resolve) => {
-            setTimeout(resolve, speak)
+            setTimeout(resolve, time)
         })
     }
 }
@@ -34,13 +38,8 @@ const speed = (i) =>{
 async function speak () {
     for (let i = 0; i < words.length; i++) {
         wordIndex = i
-        if (speak) {
-            await speed(wordIndex)
-            console.log(words[i])
-        } else if (pause) {
-            await speed(wordIndex)
-            console.log('pause')
-        }
+        await speed(wordIndex)
+        console.log(words[i])
     }
 }
 
