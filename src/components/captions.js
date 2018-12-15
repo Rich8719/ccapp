@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 class Captions extends Component {
     render() {
     // captions created using AWS transcribe. Could I incorporate natively?
-    const data = require('../data/aws-captions.json').results
+    const data = require('../data/simpsons.json').results
     const words = data.transcripts[0].transcript.split(' ')
     const segments = data.speaker_labels.segments
     let scriptMetaData = []
