@@ -8,8 +8,6 @@ class Video extends Component {
                 <video controls>
                     <source src="assets/simpsons.mp4" type="video/mp4"></source>
                 </video>
-                <div className="captions-container">
-                </div>
             </div>
         )
     }

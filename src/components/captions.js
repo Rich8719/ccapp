@@ -1,3 +1,4 @@
+import React, { Component } from 'react'
 // captions created using AWS transcribe. Could I incorporate natively?
 const data = require('../../public/assets/aws-captions.json').results
 const words = data.transcripts[0].transcript.split(' ')
@@ -39,8 +40,22 @@ async function speak () {
     for (let i = 0; i < words.length; i++) {
         wordIndex = i
         await speed(wordIndex)
-        console.log(words[i])
+        let word = words[i]
+        console.log(word)
+        return word
     }
 }
 
 speak()
+
+class Captions extends Component {
+    render() {
+        return (
+            <div className = "captions-container" >
+                <div className = "word">{word}</div>
+            </div>
+        )
+    }   
+}
+
+export default Captions
