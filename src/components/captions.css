@@ -1,0 +1,13 @@
+.word{
+    color: #ffe32e;
+    font-family: impact, sans-serif;
+    font-size: 2em;
+    font-style: oblique;
+}
+
+.captions-container{
+    position: absolute;
+    top: 475px;
+    width: 100%;
+    text-align: center;
+}
