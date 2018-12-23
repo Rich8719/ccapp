@@ -1,9 +1,4 @@
 video {
-    margin-top: 2em;
-    max-width: 80%;
     position: relative;
-}
-
-#overlay {
-    position: absolute;
+    margin-top: 2em;
 }

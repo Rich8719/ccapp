@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './captions.css'
-// import tracking from "./tracking.js"
 const data = require('../data/b99.json').results
 
 class Captions extends Component {
@@ -93,7 +92,6 @@ class Captions extends Component {
     }
 
     render() {
-    // captions created using AWS transcribe. Could I incorporate natively
         return (
             <div className = "captions-container" >
                 <div className="word">{this.state.word}</div>
