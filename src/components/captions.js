@@ -1,96 +1,47 @@
 import React, { Component } from 'react'
 import './captions.css'
-const data = require('../data/b99.json').results
+import parseTranscript from "./parseAwsTranscript";
 
-class Captions extends Component {
+class Captions extends Component { 
 
-    //add state to word
     constructor(props) {
-        super(props);
-        this.state = { word: '' };
+        super(props)
+        this.state = { word: '' }
     }
-
+    
     componentDidMount(){
-        //start a function that 
-        const words = data.transcripts[0].transcript.split(' ')
-        const segments = data.speaker_labels.segments
-        let scriptMetaData = []
-        // wordindex == scriptMetaData index to match them up
-        // let wordIndex = 0
-        let time
+        const script = parseTranscript()
 
-        // takes nested objects in aws json and returns combined object with start time, end time, and speaker label.
-        const populatesScriptMetaFromData = segments => {
-            segments.forEach(segment => {
-                segment.items.forEach(item => {
-                    scriptMetaData.push(item)
-                })
-            })
-        }
-                
-        const scriptStart = data.speaker_labels.segments[0]
-        const convertToMs = 1000
-
-        const wordSpeed = (time) => {
-            return new Promise((resolve) => {
-                setTimeout(resolve, time)
-            })
-        }
-
-
-        const start = (time) =>{
-            time = scriptStart.start_time * convertToMs
-            return new Promise((resolve) => {
-                setTimeout(resolve, time)
-            })
-        }
-
-        const pause = (time) => {
-            return new Promise((resolve) => {
-                setTimeout(resolve, time)
-            })
-        }
-
-        let firstWord = true
-        let lastWord = false
-        const speak = async () => {           
-            for (let i = 0; i < words.length; i++) {
-
-                let endTime = (scriptMetaData[i].end_time) * convertToMs
-                let word = words[i]
-                let startTime = (scriptMetaData[i].start_time) * convertToMs
-                let nextSpeakerStartTime = (i + 1 === words.length) ? lastWord=true : (scriptMetaData[i + 1].start_time) * convertToMs
-                
-                if (firstWord === true) {
-                    await start()
-                    setStateWord(word)
-                    firstWord = false
-                } 
-                else if (lastWord === true) {
-                    time = endTime - startTime
-                    setStateWord(word)
-                    await wordSpeed(time)
+        const speak = () => {
+            script.forEach( async (item) => {
+                await wait(item.start)               
+                if (item.pause > 250) { //if pause between words greater than 250ms remove word   
+                    console.log(`${item.word} | Word Speed: ${item.wordSpeed}`)
+                    
+                    await setStateWord(item.word, item.wordSpeed)
+                    setStateWord('')                 
+                } else {
+                    console.log(`${item.word} | Word Speed: ${item.wordSpeed}`)
+                    setStateWord(item.word, item.wordSpeed)
                 }
-                else if (endTime < nextSpeakerStartTime) {
-                    time = nextSpeakerStartTime - endTime
-                    setStateWord(word)
-                    await pause(time)
-                } 
-                else {
-                    time = endTime - startTime
-                    await wordSpeed(time)
-                    setStateWord(word)
-                    await pause(time)
-                }               
-            }
+            })
         }
         
-        const setStateWord = (word) => { this.setState({ word: word })}
+        const wait = (time) => {
+            return new Promise(resolve => {
+                setTimeout(resolve, time)
+            })
+        }
         
-        populatesScriptMetaFromData(segments)
-        speak()
-    }
+        const setStateWord = async (word, wordSpeed) => { 
+            this.setState({ word: word })
+            await wait(wordSpeed)
+        }
 
+        speak()
+        
+    }
+    
     render() {
         return (
             <div className = "captions-container" >
