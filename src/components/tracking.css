@@ -1,5 +1,4 @@
 #overlay {
-    position: absolute;
-    left: 25%;
-    top: 2em;
+    position: relative;
+    top: -408px;
 }

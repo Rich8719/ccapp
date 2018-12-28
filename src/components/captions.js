@@ -16,12 +16,9 @@ class Captions extends Component {
             script.forEach( async (item) => {
                 await wait(item.start)               
                 if (item.pause > 250) { //if pause between words greater than 250ms remove word   
-                    console.log(`${item.word} | Word Speed: ${item.wordSpeed}`)
-                    
                     await setStateWord(item.word, item.wordSpeed)
                     setStateWord('')                 
                 } else {
-                    console.log(`${item.word} | Word Speed: ${item.wordSpeed}`)
                     setStateWord(item.word, item.wordSpeed)
                 }
             })
@@ -39,7 +36,6 @@ class Captions extends Component {
         }
 
         speak()
-        
     }
     
     render() {
