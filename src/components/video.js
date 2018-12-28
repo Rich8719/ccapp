@@ -16,15 +16,16 @@ class Video extends Component {
         tracking(videoEl)
     }
 
+    
+
     handleError() {
         this.setState({ videoStatus: 'failed'})
     }
-
     
     render() {
         return (
         <div>
-                <video src="assets/b99.mp4" onLoadStart={this.handleOnLoad.bind(this)} onError={this.handleError.bind(this)} id={videoEl} width={720} height={405} autoPlay muted controls></video>
+            <video src="assets/b99.mp4" onLoadStart={this.handleOnLoad.bind(this)} onError={this.handleError.bind(this)} id={videoEl} width={720} height={405} autoPlay muted controls></video>
             <Captions/>
         </div>
         )

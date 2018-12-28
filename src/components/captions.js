@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './captions.css'
-import parseTranscript from "./parseAwsTranscript";
+import parseTranscript from './parseAwsTranscript'
 
 class Captions extends Component { 
 

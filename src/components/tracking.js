@@ -1,5 +1,6 @@
 import * as faceapi from 'face-api.js'
 import './tracking.css'
+import position from './position'
 
 export default function tracking(props){
     
@@ -8,25 +9,34 @@ export default function tracking(props){
         await faceapi.loadFaceLandmarkTinyModel('/models')
     }
 
-    
     const track = async (videoEl) => {
         await loadModels()
 
         const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 608 })
         const faceDetectionTask = faceapi.detectAllFaces(videoEl, options)
-        const results = await faceDetectionTask
+        const detectFace = await faceDetectionTask
+        const detectionsForSize = detectFace.map(det => det.forSize(videoEl.width, videoEl.height))
+        
+        let faceResults = {}
 
-        const detectionsForSize = results.map(det => det.forSize(videoEl.width, videoEl.height))
-
-        if (videoEl.paused || videoEl.ended) {
-            console.log('Video stopped')
+        //this needs to await video playing
+        if (videoEl.paused || videoEl.ended) {    
+            console.log('video not playing')
             return
-        } else {
-            console.log(detectionsForSize)
+        } else {            
             setTimeout(() => track(videoEl))
-            // pass coordinates from here to parent (video) and then from parent to sibling (captions)
-        }
 
+            detectionsForSize.forEach((detection, i) => {
+                return faceResults = {
+                    x: detection._box._x,
+                    y: detection._box._y,
+                    faceHeight: detection._box._height,
+                    faceWidth: detection._box._width,
+                    numOfFacesDetected: i + 1
+                }
+            })
+            position(faceResults)
+        }       
     }
 
     track(document.getElementById(props))
