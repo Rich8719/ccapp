@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import './video.css'
-import Captions from './captions'
-import tracking from './tracking'
+import Tracking from './tracking'
 
 const videoEl = 'inputVideo'
 
@@ -13,10 +12,7 @@ class Video extends Component {
     
     async handleOnLoad () {
         await this.props.onVideoLoad('loaded')
-        tracking(videoEl)
     }
-
-    
 
     handleError() {
         this.setState({ videoStatus: 'failed'})
@@ -26,7 +22,7 @@ class Video extends Component {
         return (
         <div>
             <video src="assets/b99.mp4" onLoadStart={this.handleOnLoad.bind(this)} onError={this.handleError.bind(this)} id={videoEl} width={720} height={405} autoPlay muted controls></video>
-            <Captions/>
+            <Tracking videoId={videoEl}/>
         </div>
         )
     }

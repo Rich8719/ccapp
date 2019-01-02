@@ -4,9 +4,8 @@
 - Create on start, on pause functionality
 
 ## Tracker
-- Position text to coordinates
 - Match up faces to voices (number of speakers)
-- needs to return x and y coordinates to video.js/captions.js and speaker id if possible
+- needs to return speaker id
 
 ## Video
 - Consider implementing React Player for videos https://www.npmjs.com/package/react-player

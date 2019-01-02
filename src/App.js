@@ -7,11 +7,16 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = { videoStatus: null }
+    this.state = { position: null }
     this.onVideoLoad = this.onVideoLoad.bind(this)
   }
   
   onVideoLoad = (videoStatus) => {
     this.setState({videoStatus: videoStatus})
+  }
+
+  position = (faceApiPosition) => {
+    this.setState({ position: faceApiPosition})
   }
   
   
