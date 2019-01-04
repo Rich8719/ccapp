@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Video from './components/video.js'
 
+
 class App extends Component {
   
   constructor(props){
@@ -12,14 +13,9 @@ class App extends Component {
   }
   
   onVideoLoad = (videoStatus) => {
-    this.setState({videoStatus: videoStatus})
+    this.setState({videoLoadStatus: videoStatus})
   }
 
-  position = (faceApiPosition) => {
-    this.setState({ position: faceApiPosition})
-  }
-  
-  
   render() {
     return (
       <div className="App">
