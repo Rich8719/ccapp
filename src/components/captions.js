@@ -11,11 +11,14 @@ class Captions extends Component {
 	
 	componentDidMount(){
 		const script = parseTranscript()
-		
+
+		// Pass to traking.js
+		// const nextSpeaker = (item.speaker === item.nextSpeaker) ? false : true 
+		// this.props.isNextSpeaker(nextSpeaker)
+
 		const speak = () => {  
 			script.forEach( async (item) => {
 				await wait(item.start)  
-				console.log(this.props.position)
 				
 				if (item.pause > 250) { //if pause between words greater than 250ms remove word   
 					await setStateWord(item.word, item.wordSpeed)

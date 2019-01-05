@@ -20,7 +20,6 @@ class Video extends Component {
     
     async handleOnLoad () {
         await this.props.onVideoLoad('loaded')
-        // this.setState({videoLoadStatus: 'loaded'})
     }
 
     componentDidMount() {
@@ -31,7 +30,6 @@ class Video extends Component {
             video.onpause = () => {
                 let currentTime = Math.ceil((Date.now() - startTime) / 10) * 10
                 this.setState({ currentTime: currentTime, videoPlayStatus: 'Paused' })
-                // console.log(`Paused at: ${currentTime}ms`);
                 
             }
         }
@@ -40,7 +38,6 @@ class Video extends Component {
             video.onplay = () => {
                 let currentTime = Math.ceil((Date.now() - startTime) / 10) * 10
                 this.setState({ currentTime: currentTime, videoPlayStatus: 'Play' })
-                // console.log(`Played at: ${currentTime}ms`);
             }
         }
 
@@ -52,13 +49,8 @@ class Video extends Component {
         this.setState({ videoLoadStatus: 'failed'})
     }
 
-    // onPlay = () => {
-    //     this.tracking.current.childFunction()
-    // }
-
     trackingState = (position) => {
         this.setState({ position: position })
-        // console.log(this.state.position.style)
     }
     
     render() {
@@ -66,7 +58,7 @@ class Video extends Component {
         <div>
             <video src="assets/b99.mp4" onLoadStart={this.handleOnLoad.bind(this)} onError={this.handleError.bind(this)} id={videoEl} width={720} height={405} autoPlay muted controls onPlay={this.onPlay} onPause={this.onPause}></video>
             <Tracking ref={this.tracking} videoId={videoEl} videoLoadStatus = {this.state.videoLoadStatus} videoPlayStatus = {this.state.videoPlayStatus} currentTime = {this.state.currentTime} trackingState = {this.trackingState}/>
-                <Captions videoPlayStatus={this.props.videoPlayStatus} currentTime={this.props.currentTime} position={this.state.position.style}/>
+            <Captions videoPlayStatus={this.props.videoPlayStatus} currentTime={this.props.currentTime} position={this.state.position.style}/>
         </div>
         )
     }
