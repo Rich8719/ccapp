@@ -12,53 +12,51 @@ class Video extends Component {
         this.tracking = React.createRef()
         this.state = {
             videoLoadStatus: 'loading',
-            videoPlayStatus: 'Stopped',
+            videoPlayStatus: 'stopped',
             currentTime: 0,
             position: {}
         }
     }
     
-    async handleOnLoad () {
-        await this.props.onVideoLoad('loaded')
-    }
-
-    componentDidMount() {
-        const video = document.getElementById(videoEl)
-        
-        // should stop tracking and captions functions and log time so they know where to restart
-        const onPause = () => {
-            video.onpause = () => {
-                let currentTime = Math.ceil((Date.now() - startTime) / 10) * 10
-                this.setState({ currentTime: currentTime, videoPlayStatus: 'Paused' })
-                
-            }
-        }
-
-        const onPlay = () => {
-            video.onplay = () => {
-                let currentTime = Math.ceil((Date.now() - startTime) / 10) * 10
-                this.setState({ currentTime: currentTime, videoPlayStatus: 'Play' })
-            }
-        }
-
-        onPause()
-        onPlay()
+    
+    handleLoad = () => {
+        this.setState({ videoLoadStatus: 'loaded'})
     }
     
-    handleError() {
+    handleError = () => {
         this.setState({ videoLoadStatus: 'failed'})
     }
 
+    handlePlay = () => {
+        this.setState( { videoPlayStatus: 'play'} )
+    }
+
+    handlePause = () => {
+        let currentTime = Math.ceil((Date.now() - startTime) / 10) * 10
+        this.setState({ currentTime: currentTime, videoPlayStatus: 'pause' })
+    }
+
+    handleEnd = () => {
+        this.setState({ videoPlayStatus: 'stopped'})
+    }
+
+    //state passed from tracking.js
     trackingState = (position) => {
         this.setState({ position: position })
+    }
+
+    // Use to determine whether to fire track again
+    isNextSpeaker = (speaker) => {
+        this.setState({ nextSpeaker: speaker })
+        console.log(this.state)
     }
     
     render() {
         return (
         <div>
-            <video src="assets/b99.mp4" onLoadStart={this.handleOnLoad.bind(this)} onError={this.handleError.bind(this)} id={videoEl} width={720} height={405} autoPlay muted controls onPlay={this.onPlay} onPause={this.onPause}></video>
-            <Tracking ref={this.tracking} videoId={videoEl} videoLoadStatus = {this.state.videoLoadStatus} videoPlayStatus = {this.state.videoPlayStatus} currentTime = {this.state.currentTime} trackingState = {this.trackingState}/>
-            <Captions videoPlayStatus={this.props.videoPlayStatus} currentTime={this.props.currentTime} position={this.state.position.style}/>
+            <video src="assets/b99.mp4" onLoadStart={this.handleLoad} onError={this.handleError} id={videoEl} width={720} height={405} autoPlay muted controls onPlay={this.handlePlay} onPause={this.handlePause} onEnded={this.handleEnd}></video>
+            <Tracking ref={this.tracking} videoEl={videoEl} videoLoadStatus = {this.state.videoLoadStatus} videoPlayStatus = {this.state.videoPlayStatus} currentTime = {this.state.currentTime} trackingState = {this.trackingState}/>
+                <Captions videoLoadStatus={this.state.videoLoadStatus} videoPlayStatus={this.state.videoPlayStatus} currentTime={this.state.currentTime} position={this.state.position.style}/>
         </div>
         )
     }

@@ -6,18 +6,12 @@ class Tracking extends Component {
     
     async componentDidMount() {
         await this.loadModels()
-        this.track(document.getElementById(this.props.videoId))
+        this.track(document.getElementById(this.props.videoEl))
     }
 
     loadModels = async () => {
         await faceapi.loadTinyFaceDetectorModel('/models')
         await faceapi.loadFaceLandmarkTinyModel('/models')
-    }
-    
-    // Use to determine whether to fire track again
-    isNextSpeaker = (speaker) => {
-        this.setState({nextSpeaker: speaker})
-        console.log(this.state)
     }
 
     // this needs to await video playing
@@ -40,7 +34,7 @@ class Tracking extends Component {
     }
 
     render(){
-        const video = document.getElementById(this.props.videoId)
+        const video = document.getElementById(this.props.videoEl)
         return (
             // null
             <button onClick={ () => this.track(video)}>Track Test</button>
