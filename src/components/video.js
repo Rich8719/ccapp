@@ -4,7 +4,8 @@ import Tracking from './tracking'
 import Captions from './captions'
 
 const videoEl = 'inputVideo'
-const startTime = Date.now()
+let startTime = Date.now()
+let currentTime = 0
 
 class Video extends Component {
     constructor(props) {
@@ -17,8 +18,7 @@ class Video extends Component {
             position: {}
         }
     }
-    
-    
+
     handleLoad = () => {
         this.setState({ videoLoadStatus: 'loaded'})
     }
@@ -28,12 +28,14 @@ class Video extends Component {
     }
 
     handlePlay = () => {
+        startTime = Date.now()
         this.setState( { videoPlayStatus: 'play'} )
     }
 
     handlePause = () => {
-        let currentTime = Math.ceil((Date.now() - startTime) / 10) * 10
+        currentTime += Date.now() - startTime
         this.setState({ currentTime: currentTime, videoPlayStatus: 'pause' })
+        
     }
 
     handleEnd = () => {
@@ -56,7 +58,7 @@ class Video extends Component {
         <div>
             <video src="assets/b99.mp4" onLoadStart={this.handleLoad} onError={this.handleError} id={videoEl} width={720} height={405} autoPlay muted controls onPlay={this.handlePlay} onPause={this.handlePause} onEnded={this.handleEnd}></video>
             <Tracking ref={this.tracking} videoEl={videoEl} videoLoadStatus = {this.state.videoLoadStatus} videoPlayStatus = {this.state.videoPlayStatus} currentTime = {this.state.currentTime} trackingState = {this.trackingState}/>
-                <Captions videoLoadStatus={this.state.videoLoadStatus} videoPlayStatus={this.state.videoPlayStatus} currentTime={this.state.currentTime} position={this.state.position.style}/>
+            <Captions videoLoadStatus={this.state.videoLoadStatus} videoPlayStatus={this.state.videoPlayStatus} currentTime={this.state.currentTime} position={this.state.position.style}/>
         </div>
         )
     }

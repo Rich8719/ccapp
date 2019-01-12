@@ -26,15 +26,15 @@ class Captions extends Component {
 		await this.wait(wordSpeed)
 	}
 
-	// scriptStart = (currentTime) => {
-	// 	console.log(currentTime)
-	// 	script.forEach(element => {
+	scriptStart = (currentTime) => {
+		console.log(currentTime)
+		// script.forEach(element => {
 			
-	// 	});
-	// }
+		// })
+	}
 	
 	speak = async () => {
-		// await this.scriptStart(currentTime)
+		await this.scriptStart(this.props.currentTime)
 		// script = script.slice(scriptStart)
 
 		script.forEach(async (item) => {

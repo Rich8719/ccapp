@@ -21,7 +21,7 @@ class Tracking extends Component {
         const detectFace = await faceDetectionTask
         const detectionsForSize = detectFace.map(det => det.forSize(videoEl.width, videoEl.height))
 
-        console.log(detectionsForSize)
+        // console.log(detectionsForSize)
       
         detectionsForSize.forEach((detection) => {                  
             this.props.trackingState({
