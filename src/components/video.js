@@ -33,9 +33,8 @@ class Video extends Component {
     }
 
     handlePause = () => {
-        currentTime += Date.now() - startTime
+        currentTime += Math.ceil((Date.now() - startTime) / 10) * 10
         this.setState({ currentTime: currentTime, videoPlayStatus: 'pause' })
-        
     }
 
     handleEnd = () => {

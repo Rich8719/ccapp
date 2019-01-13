@@ -2,7 +2,6 @@
 
 ## Captions
 - Create on start, on pause functionality
-<!-- -- Fix current time in video.js so that pause time does not increase when paused -->
 --loop through scriptStart to get index number of element that is closest to the current time, then pass that value to speak and start speak loop from that item.
 
 

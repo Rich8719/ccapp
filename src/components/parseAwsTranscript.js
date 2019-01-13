@@ -41,7 +41,5 @@ export default function parseTranscript() {
         })         
     }
 
-    console.log(script)
-
     return script
 }

@@ -27,15 +27,21 @@ class Captions extends Component {
 	}
 
 	scriptStart = (currentTime) => {
+		//This returns the index for the element closest to last word spoken
+		//This wont work, because if someone rewinds it won't get the new word. Need to evalute which index is closest to current time
+		// https://stackoverflow.com/questions/8584902/get-closest-number-out-of-array
 		console.log(currentTime)
-		// script.forEach(element => {
-			
-		// })
+		script.forEach((element, index) => {
+			if(this.state.word === element.word){
+				console.log(index)
+				return script = script.slice(index)
+			}
+		})
 	}
-	
-	speak = async () => {
-		await this.scriptStart(this.props.currentTime)
-		// script = script.slice(scriptStart)
+
+	speak = async (currentTime) => {
+		await this.scriptStart(currentTime)
+		console.log(script)
 
 		script.forEach(async (item) => {
 			await this.wait(item.start)
@@ -53,7 +59,7 @@ class Captions extends Component {
 	}
 
 	componentDidUpdate(prevProps){
-		if (this.props.videoPlayStatus !== prevProps.videoPlayStatus) {
+		if (this.props.videoPlayStatus !== prevProps.videoPlayStatus && this.props.videoPlayStatus === 'play') {
 			this.speak(this.props.currentTime)
 		} 
 	}
