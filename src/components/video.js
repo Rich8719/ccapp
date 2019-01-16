@@ -15,6 +15,7 @@ class Video extends Component {
             videoLoadStatus: 'loading',
             videoPlayStatus: 'stopped',
             currentTime: 0,
+            nextSpeaker: false,
             position: {}
         }
     }
@@ -49,15 +50,14 @@ class Video extends Component {
     // Use to determine whether to fire track again
     isNextSpeaker = (speaker) => {
         this.setState({ nextSpeaker: speaker })
-        console.log(this.state)
     }
     
     render() {
         return (
         <div>
             <video src="assets/b99.mp4" onLoadStart={this.handleLoad} onError={this.handleError} id={videoEl} width={720} height={405} autoPlay muted controls onPlay={this.handlePlay} onPause={this.handlePause} onEnded={this.handleEnd}></video>
-            <Tracking ref={this.tracking} videoEl={videoEl} videoLoadStatus = {this.state.videoLoadStatus} videoPlayStatus = {this.state.videoPlayStatus} currentTime = {this.state.currentTime} trackingState = {this.trackingState}/>
-            <Captions videoLoadStatus={this.state.videoLoadStatus} videoPlayStatus={this.state.videoPlayStatus} currentTime={this.state.currentTime} position={this.state.position.style}/>
+            <Tracking ref={this.tracking} isNextSpeaker={this.state.nextSpeaker} videoEl={videoEl} videoLoadStatus = {this.state.videoLoadStatus} videoPlayStatus = {this.state.videoPlayStatus} currentTime = {this.state.currentTime} trackingState = {this.trackingState}/>
+            <Captions videoLoadStatus={this.state.videoLoadStatus} videoPlayStatus={this.state.videoPlayStatus} currentTime={this.state.currentTime} position={this.state.position.style} isNextSpeaker={this.isNextSpeaker}/>
         </div>
         )
     }

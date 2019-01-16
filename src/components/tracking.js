@@ -33,6 +33,13 @@ class Tracking extends Component {
         })  
     }
 
+    componentDidUpdate(prevProps){
+        if(this.props.isNextSpeaker !== prevProps.isNextSpeaker) {
+            this.track(document.getElementById(this.props.videoEl))
+            console.log('update track')
+        }
+    }
+
     render(){
         const video = document.getElementById(this.props.videoEl)
         return (
